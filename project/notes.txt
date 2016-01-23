@@ -1,0 +1,61 @@
+########### R1
+
+BS = 10
+No averaging
+wd = 8e-2
+K = 600
+startign lrate = 3e-3
+momentum = 0.9
+
+network = NetworkBuilder([
+        Layer_Conv2D_NoBias(3, 64, kern_size=3),
+        Layer_Pool2D(pool_size=3),
+        Layer_BN_2D(64),
+        Layer_ReLU(),
+        Layer_Conv2D_NoBias(64, 128, kern_size=3),
+        Layer_Pool2D(pool_size=2),
+        Layer_BN_2D(128),
+        Layer_ReLU(),
+        Layer_2Dto1D(),
+        Layer_FullyConnected_NoBias(128*4*4,1024),
+        Layer_BN(1024),
+        Layer_ReLU(),
+        Layer_FullyConnected_NoBias(1024,512),
+        Layer_BN(512),
+        Layer_Sigmoid(),
+        Layer_FullyConnected(512,10)
+    ])
+
+TPE = 36s
+succ = 78.5%
+
+
+############# R2 no BN
+
+BS = 150
+wd = 3e-3
+K = 2000
+starting lrate = 3e-3
+momentum = 0.9
+
+network = NetworkBuilder([ # R2
+        Layer_Conv2D_NoBias(3, 64, kern_size=3),
+        Layer_Pool2D(pool_size=3),
+        #Layer_BN_2D(64),
+        Layer_ReLU(),
+        Layer_Conv2D_NoBias(64, 128, kern_size=3),
+        Layer_Pool2D(pool_size=2),
+        #Layer_BN_2D(128),
+        Layer_ReLU(),
+        Layer_2Dto1D(),
+        Layer_FullyConnected_NoBias(128*4*4,1024),
+        #Layer_BN(1024),
+        Layer_ReLU(),
+        Layer_FullyConnected_NoBias(1024,512),
+        #Layer_BN(512),
+        Layer_Sigmoid(),
+        Layer_FullyConnected(512,10)
+    ])
+
+TPE = 13s
+succ = 73%
